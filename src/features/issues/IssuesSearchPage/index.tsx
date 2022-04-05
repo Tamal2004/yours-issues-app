@@ -1,10 +1,16 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 
 import { styled } from 'theme';
 import Layout from 'templates/Layout';
 import Input from 'molecules/Input';
 import Button from 'atoms/Button';
+
+import { useAppDispatch, useAppSelector } from 'utils/hooks/store';
+
+import { fetchRepository } from '../issuesSlice/actions';
+
+import { RepositoryAttributes } from 'types/issues';
 
 import {
     issuesSearchFormInitialValues,
@@ -23,11 +29,11 @@ const Container = styled.div`
 
 const StyledForm = styled(Form)`
     display: grid;
-    
+
     grid-template-areas:
         'owner repository'
         'button button';
-        
+
     grid-column-gap: 3.25rem;
     grid-row-gap: 2rem;
 `;
@@ -44,18 +50,31 @@ const StyledInput = styled(Input)`
 const StyledButton = styled(Button)`
     grid-area: button;
     grid-column: 1 / -1;
-    
+
     justify-self: center;
 `;
 
 const IssuesSearchPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+
+    const onSubmit = async (
+        values: RepositoryAttributes,
+        helpers: FormikHelpers<RepositoryAttributes>
+    ) => {
+        await dispatch(fetchRepository(values));
+    };
+
+    const issues = useAppSelector((state) => state.issues);
+
+    console.log({ issues });
+
     return (
         <Background>
             <Container>
                 <Formik
                     initialValues={issuesSearchFormInitialValues}
                     validationSchema={issuesSearchFormSchema}
-                    onSubmit={() => {}}
+                    onSubmit={onSubmit}
                 >
                     {({ handleSubmit, isValid, isSubmitting }) => (
                         <StyledForm onSubmit={handleSubmit}>
@@ -76,7 +95,7 @@ const IssuesSearchPage: React.FC = () => {
                             <StyledButton
                                 type='submit'
                                 disabled={!isValid}
-                                    loading={isSubmitting}
+                                loading={isSubmitting}
                             >
                                 Show issues
                             </StyledButton>

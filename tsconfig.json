@@ -21,6 +21,8 @@
             "templates/*": ["src/components/templates/*"],
             "utils/*": ["src/utils/*"],
             "features/*": ["src/features/*"],
+            "services/*": ["src/services/*"],
+            "types/*": ["src/types/*"],
             "theme/*": ["src/theme/*"],
             "theme": ["src/theme/theme.ts"]
         },

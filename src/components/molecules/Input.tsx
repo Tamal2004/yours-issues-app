@@ -107,7 +107,7 @@ const Input: React.FC<FieldProps> = ({
 }) => {
     const [{ onChange, value, onBlur }, { error, touched }] = useField(id);
 
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('&'); // Placeholder used for spacing
 
     useEffect(() => {
         if (error) setErrorMessage(error);
