@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { RepositoryAttributes } from '../types';
+import { RepositoryAttributes } from 'types/issues';
 
 export const issuesSearchFormInitialValues: RepositoryAttributes = {
     owner: '',

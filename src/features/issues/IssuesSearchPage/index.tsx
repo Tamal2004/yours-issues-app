@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 
 import { styled } from 'theme';
@@ -16,6 +16,7 @@ import {
     issuesSearchFormInitialValues,
     issuesSearchFormSchema
 } from './issuesSearchForm';
+import { selectError } from 'features/issues/issuesSlice/selectors';
 
 const Background = styled(Layout)`
     background: url('/background-splash.png');
@@ -24,10 +25,19 @@ const Background = styled(Layout)`
 
 const Container = styled.div`
     grid-column: content-start / content-end;
+
+    display: grid;
+    grid-template-areas:
+        'form'
+        'error';
+     grid-row-gap: 2rem;
+
     padding-top: 26rem;
 `;
 
 const StyledForm = styled(Form)`
+    grid-area: form;
+
     display: grid;
 
     grid-template-areas:
@@ -54,23 +64,47 @@ const StyledButton = styled(Button)`
     justify-self: center;
 `;
 
+const Error = styled.span<{ $hasError: boolean }>`
+    grid-area: error;
+    justify-self: center;
+
+    width: max-content;
+    height: 7rem;
+    padding: 2rem;
+
+    border-radius: 0.5rem;
+    border: 1px solid ${({ theme }) => theme.colors.error.light};
+
+    color: ${({ theme }) => theme.colors.error.main};
+    background-color: ${({ theme }) => theme.colors.error.dark};
+    transition: all 300ms;
+
+    ${({ theme }) => theme.typography.button};
+    font-weight: 400;
+
+    opacity: ${({ $hasError }) => ($hasError ? '1' : '0')};
+`;
 const IssuesSearchPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const error = useAppSelector(selectError);
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    // Sticky error message to avoid content flicker with transitions
+    useEffect(() => {
+        if (error) setErrorMessage(error)
+    }, [error, setErrorMessage]);
 
     const onSubmit = async (
-        values: RepositoryAttributes,
-        helpers: FormikHelpers<RepositoryAttributes>
+        values: RepositoryAttributes
     ) => {
         await dispatch(fetchRepository(values));
     };
 
-    const issues = useAppSelector((state) => state.issues);
-
-    console.log({ issues });
-
     return (
         <Background>
             <Container>
+                <Error $hasError={!!error}>{errorMessage}</Error>
                 <Formik
                     initialValues={issuesSearchFormInitialValues}
                     validationSchema={issuesSearchFormSchema}

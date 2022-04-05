@@ -10,15 +10,25 @@ const octokit = new Octokit();
 
 export const getIssues = async ({
     owner,
-    repository
+    repository,
+    page,
+    state
 }: {
     owner: string;
     repository: string;
+    page: number;
+    state: 'open' | 'closed';
 }) =>
-    await octokit.request('GET /repos/{owner}/{repository}/issues', {
-        owner,
-        repository
-    });
+    (await octokit.request(
+        'GET /repos/{owner}/{repository}/issues?state={statet}&page={page}&per_page={perPage}',
+        {
+            owner,
+            repository,
+            page,
+            state,
+            perPage: 20
+        }
+    )) as Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
 export const getClosedIssuesCount = async ({
     owner,
