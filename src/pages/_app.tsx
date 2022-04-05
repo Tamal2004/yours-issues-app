@@ -1,8 +1,20 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import React from 'react';
+import App, { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+import { wrapper } from '../utils/store';
 
-export default MyApp;
+export const getInitialProps = wrapper.getInitialAppProps(
+    () => async (context) => {
+        const pageProps = {
+            ...(await App.getInitialProps(context)).pageProps
+        };
+
+        return { pageProps };
+    }
+);
+
+const WrappedApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+    return <Component {...pageProps} />;
+};
+
+export default wrapper.withRedux(WrappedApp);
