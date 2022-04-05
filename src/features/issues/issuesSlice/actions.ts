@@ -3,7 +3,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getClosedIssuesCount, getIssues } from 'services/issuesApi';
 import { getRepository } from 'services/repositoriesApi';
 
-import { RepositoryAttributes } from 'types/issues';
+import { Issue, RepositoryAttributes } from 'types/issues';
+import { RootState } from 'utils/store';
 
 interface FetchIssuesParameters extends Partial<RepositoryAttributes> {
     page?: number;
@@ -11,7 +12,7 @@ interface FetchIssuesParameters extends Partial<RepositoryAttributes> {
 }
 
 interface FetchIssuesPayload {
-    issues: any[];
+    issues: Issue[];
 }
 
 export const fetchIssues = createAsyncThunk<
@@ -20,10 +21,11 @@ export const fetchIssues = createAsyncThunk<
 >(
     'issues/fetch',
     async ({ owner, repository, page = 1, state = 'open' }, thunkApi) => {
+        const store = thunkApi.getState() as RootState;
+
         const issuesResponse = await getIssues({
-            owner: owner || (thunkApi.getState().issues.owner as string),
-            repository:
-                repository || (thunkApi.getState().issues.repository as string),
+            owner: owner || (store.issues.owner as string),
+            repository: repository || (store.issues.repository as string),
             page,
             state
         });
@@ -38,8 +40,31 @@ export const fetchIssues = createAsyncThunk<
         // Success
         const { data } = issuesResponse;
 
+        // Normalize
+        const issues: Issue[] = data.map(
+            ({
+                id,
+                number,
+                title,
+                comments,
+                repository_url,
+                html_url,
+                created_at,
+                user
+            }) => ({
+                id,
+                number,
+                title,
+                commentsCount: comments,
+                repositoryUrl: repository_url,
+                issueUrl: html_url,
+                createdAt: created_at,
+                userLoginId: user?.login
+            })
+        );
+
         return {
-            issues: data
+            issues
         };
     }
 );

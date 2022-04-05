@@ -1,5 +1,5 @@
 import React from 'react';
-import NextLink from 'next/link';
+import Link from 'next/link';
 
 import { styled } from 'theme';
 
@@ -10,11 +10,8 @@ const Container = styled.header`
     padding: 5.5rem 18.75rem;
 `;
 
-const Link = styled(NextLink)`
-    cursor: pointer;
-`;
-
 const YoursLogo = styled.img`
+    cursor: pointer;
     width: 14rem;
     height: 10.5rem;
 `;
