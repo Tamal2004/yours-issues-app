@@ -1,73 +1,48 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getClosedIssuesCount } from 'services/issuesApi';
+import { getClosedIssuesCount, getIssues } from 'services/issuesApi';
 import { getRepository } from 'services/repositoriesApi';
 
 import { RepositoryAttributes } from 'types/issues';
 
-interface FetchIssuesParameters extends RepositoryAttributes {
-    page?: number,
-    state?: 'open' | 'closed'
+interface FetchIssuesParameters extends Partial<RepositoryAttributes> {
+    page?: number;
+    state?: 'open' | 'closed';
 }
 
-interface FetchIssuesPayload extends RepositoryAttributes {
-    openIssuesCount: number;
-    closedIssuesCount: number;
+interface FetchIssuesPayload {
+    issues: any[];
 }
 
 export const fetchIssues = createAsyncThunk<
-    // Return type of the payload creator
     FetchIssuesPayload,
-    // First argument to the payload creator
-    FetchIssuesParameters,
-    {
-        rejectValue: FetchRepositoryError;
-    }
-    >('issues/fetch', async ({ owner, repository }, thunkApi) => {
-    // Used to get repository metadata & the number of open issues
-    const repositoryResponse = await getRepository({ owner, repository });
-
-    if ((repositoryResponse.status as number) === 404) {
-        // Repository not found
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository not found'
+    FetchIssuesParameters
+>(
+    'issues/fetch',
+    async ({ owner, repository, page = 1, state = 'open' }, thunkApi) => {
+        const issuesResponse = await getIssues({
+            owner: owner || (thunkApi.getState().issues.owner as string),
+            repository:
+                repository || (thunkApi.getState().issues.repository as string),
+            page,
+            state
         });
-    } else if ((repositoryResponse.status as number) === 403) {
-        // Forbidden
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository is not public'
-        });
-    } else if ((repositoryResponse.status as number) === 301) {
-        // Repository moved permanently
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository has been moved'
-        });
+
+        if (issuesResponse.status !== 200) {
+            // Something went wrong
+            return thunkApi.rejectWithValue({
+                errorMessage: 'Something went wrong'
+            });
+        }
+
+        // Success
+        const { data } = issuesResponse;
+
+        return {
+            issues: data
+        };
     }
-
-    // Success
-    const {
-        data: { open_issues_count }
-    } = repositoryResponse;
-
-    const closedIssuesResponse = await getClosedIssuesCount({
-        owner,
-        repository
-    });
-
-    let closedIssuesCount = 0;
-
-    if (closedIssuesResponse.status === 200) {
-        closedIssuesCount = closedIssuesResponse.data.total_count;
-    }
-
-    return {
-        owner,
-        repository,
-        openIssuesCount: open_issues_count,
-        closedIssuesCount
-    };
-});
-
+);
 
 interface FetchRepositoryPayload extends RepositoryAttributes {
     openIssuesCount: number;
@@ -84,47 +59,38 @@ export const fetchRepository = createAsyncThunk<
     {
         rejectValue: FetchRepositoryError;
     }
->('issues/fetch', async ({ owner, repository }, thunkApi) => {
+>('repository/fetch', async ({ owner, repository }, thunkApi) => {
     // Used to get repository metadata & the number of open issues
-    const repositoryResponse = await getRepository({ owner, repository });
+    try {
+        const repositoryResponse = await getRepository({ owner, repository });
 
-    if ((repositoryResponse.status as number) === 404) {
-        // Repository not found
+        // Success
+        const {
+            data: { open_issues_count }
+        } = repositoryResponse;
+
+        const closedIssuesResponse = await getClosedIssuesCount({
+            owner,
+            repository
+        });
+
+        let closedIssuesCount = 0;
+
+        if (closedIssuesResponse.status === 200) {
+            closedIssuesCount = closedIssuesResponse.data.total_count;
+        }
+
+        await thunkApi.dispatch(fetchIssues({ owner, repository }));
+
+        return {
+            owner,
+            repository,
+            openIssuesCount: open_issues_count,
+            closedIssuesCount
+        };
+    } catch (error) {
         return thunkApi.rejectWithValue({
             errorMessage: 'Repository not found'
         });
-    } else if ((repositoryResponse.status as number) === 403) {
-        // Forbidden
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository is not public'
-        });
-    } else if ((repositoryResponse.status as number) === 301) {
-        // Repository moved permanently
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository has been moved'
-        });
     }
-
-    // Success
-    const {
-        data: { open_issues_count }
-    } = repositoryResponse;
-
-    const closedIssuesResponse = await getClosedIssuesCount({
-        owner,
-        repository
-    });
-
-    let closedIssuesCount = 0;
-
-    if (closedIssuesResponse.status === 200) {
-        closedIssuesCount = closedIssuesResponse.data.total_count;
-    }
-
-    return {
-        owner,
-        repository,
-        openIssuesCount: open_issues_count,
-        closedIssuesCount
-    };
 });

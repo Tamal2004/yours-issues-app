@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import { fetchRepository } from './actions';
-import {RepositoryAttributes} from "types/issues";
+import {fetchIssues, fetchRepository} from './actions';
+import { RepositoryAttributes } from 'types/issues';
 
 interface IssuesState extends RepositoryAttributes {
     error: string;
     openIssuesCount: number;
     closedIssuesCount: number;
+    issues: any[]
 }
 
 const initialState: IssuesState = {
@@ -15,7 +16,8 @@ const initialState: IssuesState = {
     owner: '',
     repository: '',
     openIssuesCount: 0,
-    closedIssuesCount: 0
+    closedIssuesCount: 0,
+    issues: []
 };
 
 const issuesSlice = createSlice({
@@ -26,14 +28,25 @@ const issuesSlice = createSlice({
         builder.addCase(HYDRATE, (state, action) => {
             //@ts-ignore
             state = { ...state, ...(action.payload.issues as IssuesState) };
+            return state;
         });
         builder.addCase(fetchRepository.fulfilled, (state, { payload }) => {
             state = { ...state, ...payload };
+            return state;
+        });
+        builder.addCase(fetchRepository.pending, (state) => {
+            state.error = initialState.error;
+            return state;
         });
         builder.addCase(fetchRepository.rejected, (state, action) => {
             if (action.payload) {
                 state.error = action.payload.errorMessage;
             }
+            return state;
+        });
+        builder.addCase(fetchIssues.fulfilled, (state, { payload }) => {
+            state.issues = payload;
+            return state;
         });
     }
 });
