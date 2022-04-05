@@ -81,8 +81,7 @@ const Checkmark = styled.img<{ $isValid: boolean }>`
 const Error = styled.span<{ $hasError: boolean }>`
     grid-area: error;
 
-    position: relative;
-    width: fit-content;
+    width: max-content;
     padding: 0.5rem 0.875rem;
     margin-top: 0.875rem;
 
@@ -109,6 +108,7 @@ const Input: React.FC<FieldProps> = ({
 
     const [errorMessage, setErrorMessage] = useState('&'); // Placeholder used for spacing
 
+    // Sticky error message to avoid content flicker with transitions
     useEffect(() => {
         if (error) setErrorMessage(error);
     }, [error, setErrorMessage]);
