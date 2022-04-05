@@ -19,7 +19,7 @@ export const getInitialProps = wrapper.getInitialAppProps(
 const WrappedApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
         <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+                <Component {...pageProps} />
         </ThemeProvider>
     );
 };
