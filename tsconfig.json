@@ -20,6 +20,7 @@
             "organisms/*": ["src/components/organisms/*"],
             "templates/*": ["src/components/templates/*"],
             "utils/*": ["src/utils/*"],
+            "features/*": ["src/features/*"],
             "theme/*": ["src/theme/*"],
             "theme": ["src/theme/theme.ts"]
         },
