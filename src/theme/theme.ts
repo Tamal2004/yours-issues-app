@@ -10,6 +10,9 @@ export const theme = {
             light: 'rgba(50, 103, 240, 0.17)',
             main: '#3267F0'
         },
+        secondary: {
+            main: '#9A41EA'
+        },
         error: {
             light: 'rgba(255, 0, 0, 0.15)',
             main: '#FF0000',
@@ -24,11 +27,6 @@ export const theme = {
         }
     },
     typography: {
-        headline: baseCss`
-            font-size: 12rem;
-            line-height: 1.25;
-            font-weight: 700;
-        `,
         input: baseCss`
             font-size: 2.5rem;
             line-height: 1.2;
@@ -38,7 +36,12 @@ export const theme = {
             font-size: 1.5rem;
             line-height: 1.2;
             font-weight: 400;
-        `
+        `,
+        button: baseCss`
+            font-size: 1.75rem;
+            line-height: 1.29;
+            font-weight: 600;
+        `,
     }
 };
 
