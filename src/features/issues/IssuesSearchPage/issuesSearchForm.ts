@@ -1,11 +1,8 @@
 import * as Yup from 'yup';
 
-export interface IssuesSearchFormValues {
-    owner: string;
-    repository: string;
-}
+import { RepositoryAttributes } from '../types';
 
-export const issuesSearchFormInitialValues: IssuesSearchFormValues = {
+export const issuesSearchFormInitialValues: RepositoryAttributes = {
     owner: '',
     repository: ''
 };
