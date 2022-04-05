@@ -74,7 +74,7 @@ const Checkmark = styled.img<{ $isValid: boolean }>`
     justify-self: end;
     margin-right: 2rem;
     transition: all 300ms;
-    
+
     opacity: ${({ $isValid }) => ($isValid ? '1' : '0')};
 `;
 
@@ -103,7 +103,7 @@ const Input: React.FC<FieldProps> = ({
     className,
     placeholder,
     label,
-    required
+    required = false
 }) => {
     const [{ onChange, value, onBlur }, { error, touched }] = useField(id);
 

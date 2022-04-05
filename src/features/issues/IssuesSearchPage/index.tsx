@@ -1,10 +1,15 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 
 import { styled } from 'theme';
 import Layout from 'templates/Layout';
 import Input from 'molecules/Input';
+import Button from 'atoms/Button';
+
+import {
+    issuesSearchFormInitialValues,
+    issuesSearchFormSchema
+} from './issuesSearchForm';
 
 const Background = styled(Layout)`
     background: url('/background-splash.png');
@@ -18,25 +23,30 @@ const Container = styled.div`
 
 const StyledForm = styled(Form)`
     display: grid;
+    
     grid-template-areas:
-        'input input'
-        'submit submit';
+        'owner repository'
+        'button button';
+        
     grid-column-gap: 3.25rem;
+    grid-row-gap: 2rem;
 `;
 
-interface IssuesSearchFormValues {
-    owner: string;
-    repository: string;
-}
+const StyledInput = styled(Input)`
+    &.owner {
+        grid-area: owner;
+    }
+    &.repository {
+        grid-area: repository;
+    }
+`;
 
-const issuesSearchFormInitialValues: IssuesSearchFormValues = {
-    owner: '',
-    repository: ''
-};
-const issuesSearchFormSchema = Yup.object().shape({
-    owner: Yup.string().required('This field is required'),
-    repository: Yup.string().required('This field is required')
-});
+const StyledButton = styled(Button)`
+    grid-area: button;
+    grid-column: 1 / -1;
+    
+    justify-self: center;
+`;
 
 const IssuesSearchPage: React.FC = () => {
     return (
@@ -47,20 +57,29 @@ const IssuesSearchPage: React.FC = () => {
                     validationSchema={issuesSearchFormSchema}
                     onSubmit={() => {}}
                 >
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit, isValid, isSubmitting }) => (
                         <StyledForm onSubmit={handleSubmit}>
-                            <Input
+                            <StyledInput
                                 id='owner'
+                                className='owner'
                                 label='Owner'
                                 placeholder='Owner name'
                                 required
                             />
-                            <Input
+                            <StyledInput
                                 id='repository'
+                                className='repository'
                                 label='Repository'
                                 placeholder='Repository name'
                                 required
                             />
+                            <StyledButton
+                                type='submit'
+                                disabled={!isValid}
+                                    loading={isSubmitting}
+                            >
+                                Show issues
+                            </StyledButton>
                         </StyledForm>
                     )}
                 </Formik>
