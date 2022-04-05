@@ -1,15 +1,16 @@
-import { configureStore, ThunkAction } from '@reduxjs/toolkit';
+import { Action } from 'redux';
+import { combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
 import * as issuesSlice from '../features/issues/issuesSlice';
 
-import type { Action } from 'redux';
+export const rootReducer = combineReducers({
+    [issuesSlice.name]: issuesSlice.reducer
+});
 
 const makeStore = () =>
     configureStore({
-        reducer: {
-            [issuesSlice.name]: issuesSlice.reducer
-        },
+        reducer: rootReducer,
         devTools: true
     });
 
