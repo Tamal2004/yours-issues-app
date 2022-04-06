@@ -13,6 +13,14 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
 
         if (!shallow) {
             await store.dispatch(fetchRepository({ owner, repository }));
+            if (store.getState().issues.error) {
+                return {
+                    redirect: {
+                        destination: '/',
+                        permanent: false
+                    }
+                };
+            }
         }
         return {};
     }

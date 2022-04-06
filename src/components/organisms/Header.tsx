@@ -19,7 +19,7 @@ const YoursLogo = styled.img`
 const Header = () => {
     return (
         <Container>
-            <Link href='/'>
+            <Link href='/' passHref>
                 <YoursLogo src='/yours-logo.png' />
             </Link>
         </Container>

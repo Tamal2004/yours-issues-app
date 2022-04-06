@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik, Form } from 'formik';
 
 import { styled } from 'theme';
@@ -16,7 +16,6 @@ import {
     issuesSearchFormInitialValues,
     issuesSearchFormSchema
 } from './issuesSearchForm';
-import { selectError } from 'features/issues/issuesSlice/selectors';
 import { useRouter } from 'next/router';
 
 const Background = styled(Layout)`
@@ -89,7 +88,7 @@ const Error = styled.span<{ $hasError: boolean }>`
 const IssuesSearchPage: React.FC = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const error = useAppSelector(selectError);
+    const { error } = useAppSelector((state) => state.issues);
 
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -98,13 +97,14 @@ const IssuesSearchPage: React.FC = () => {
         if (error) setErrorMessage(error);
     }, [error, setErrorMessage]);
 
-    const onSubmit = async (values: RepositoryAttributes) => {
-        await dispatch(fetchRepository(values));
-        const { owner, repository } = values;
-        await router.push(
-            `/${owner}/${repository}?shallow=true`,
-            `/${owner}/${repository}`
-         );
+    const onSubmit = async ({ owner, repository }: RepositoryAttributes) => {
+        const redirect = () => {
+            router.push(
+                `/${owner}/${repository}?shallow=true`,
+                `/${owner}/${repository}`
+            );
+        };
+        await dispatch(fetchRepository({ owner, repository, redirect }));
     };
 
     return (
