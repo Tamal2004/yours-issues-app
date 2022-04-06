@@ -24,9 +24,12 @@ export const theme = {
             dark: '#040C28'
         },
         grey: {
-            text: 'rgba(230, 231, 233, 0.5)',
+            lightest: 'rgba(230, 231, 233, 0.5)',
             light: 'rgba(230, 231, 233, 0.8)',
             main: '#E6E7E9',
+        },
+        border: {
+            light: 'rgba(255, 255, 255, 0.2)'
         }
     },
     typography: {

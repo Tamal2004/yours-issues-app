@@ -74,6 +74,7 @@ export const fetchIssues = createAsyncThunk<
 interface FetchRepositoryPayload extends RepositoryAttributes {
     openIssuesCount: number;
     closedIssuesCount: number;
+    state: 'open' | 'closed'
 }
 
 interface FetchRepositoryError {
@@ -91,11 +92,16 @@ export const fetchRepository = createAsyncThunk<
     try {
         const repositoryResponse = await getRepository({ owner, repository });
 
-        // Success
         const {
             data: { open_issues_count }
         } = repositoryResponse;
 
+        if (!open_issues_count)
+            return thunkApi.rejectWithValue({
+                errorMessage: 'Repository has no issues'
+            });
+
+        // Success
         const closedIssuesResponse = await getClosedIssuesCount({
             owner,
             repository
@@ -113,7 +119,8 @@ export const fetchRepository = createAsyncThunk<
             owner,
             repository,
             openIssuesCount: open_issues_count,
-            closedIssuesCount
+            closedIssuesCount,
+            state: 'open'
         };
     } catch (error) {
         return thunkApi.rejectWithValue({

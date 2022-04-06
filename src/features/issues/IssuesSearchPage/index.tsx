@@ -101,7 +101,10 @@ const IssuesSearchPage: React.FC = () => {
     const onSubmit = async (values: RepositoryAttributes) => {
         await dispatch(fetchRepository(values));
         const { owner, repository } = values;
-        await router.push(`/${owner}/${repository}`, '', { shallow: true });
+        await router.push(
+            `/${owner}/${repository}?shallow=true`,
+            `/${owner}/${repository}`
+         );
     };
 
     return (
