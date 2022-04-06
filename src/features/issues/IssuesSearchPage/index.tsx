@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 
 import { styled } from 'theme';
@@ -6,17 +6,13 @@ import Button from 'atoms/Button';
 import Input from 'molecules/Input';
 import Layout from 'templates/Layout';
 
-import { useAppDispatch, useAppSelector } from 'utils/hooks/store';
-
-import { fetchRepository } from '../issuesSlice/actions';
-
-import { RepositoryAttributes } from 'types/issues';
+import { useAppSelector } from 'utils/hooks/store';
 
 import {
     issuesSearchFormInitialValues,
     issuesSearchFormSchema
 } from './issuesSearchForm';
-import { useRouter } from 'next/router';
+import { useHandleSubmit } from './hooks';
 
 const Background = styled(Layout)`
     background: url('/background-splash.png');
@@ -86,8 +82,6 @@ const Error = styled.span<{ $hasError: boolean }>`
 `;
 
 const IssuesSearchPage: React.FC = () => {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
     const { error } = useAppSelector((state) => state.issues);
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -97,24 +91,18 @@ const IssuesSearchPage: React.FC = () => {
         if (error) setErrorMessage(error);
     }, [error, setErrorMessage]);
 
-    const onSubmit = async ({ owner, repository }: RepositoryAttributes) => {
-        const redirect = () => {
-            router.push(
-                `/${owner}/${repository}?shallow=true`,
-                `/${owner}/${repository}`
-            );
-        };
-        await dispatch(fetchRepository({ owner, repository, redirect }));
-    };
+    const handleSubmit = useHandleSubmit();
 
     return (
         <Background>
             <Container>
-                <Error role='errorToast' $hasError={!!error}>{errorMessage}</Error>
+                <Error role='errorToast' $hasError={!!error}>
+                    {errorMessage}
+                </Error>
                 <Formik
                     initialValues={issuesSearchFormInitialValues}
                     validationSchema={issuesSearchFormSchema}
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
                 >
                     {({ handleSubmit, isValid, isSubmitting }) => (
                         <StyledForm onSubmit={handleSubmit}>
