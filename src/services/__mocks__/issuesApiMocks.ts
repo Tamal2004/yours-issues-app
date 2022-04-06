@@ -5,14 +5,92 @@ export const mockedClosedIssuesCountParameters = {
     repository: 'scrcpy'
 };
 
-// https://api.github.com/search/issues?q=repo:genymobile/scrcpy+type:issues+state:closed&per_page=1
+export const mockedClosedIssuesCountUrl = `https://api.github.com/search/issues?q=repo:${mockedClosedIssuesCountParameters.owner}/${mockedClosedIssuesCountParameters.repository}+type:issues+state:closed&per_page=1`;
+// @ts-ignore
 export const mockedClosedIssuesCount: Endpoints['GET /search/issues']['response'] =
     {
         status: 200,
         data: {
             total_count: 1889,
             incomplete_results: false,
-            items: []
+            items: [
+                {
+                    url: 'https://api.github.com/repos/Genymobile/scrcpy/issues/3169',
+                    repository_url:
+                        'https://api.github.com/repos/Genymobile/scrcpy',
+                    labels_url:
+                        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/labels{/name}',
+                    comments_url:
+                        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/comments',
+                    events_url:
+                        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/events',
+                    html_url:
+                        'https://github.com/Genymobile/scrcpy/issues/3169',
+                    id: 1193432339,
+                    node_id: 'I_kwDOBqahac5HIlUT',
+                    number: 3169,
+                    title: 'Problem with frame counter',
+                    user: {
+                        login: 'Xionghaizi001',
+                        id: 50747104,
+                        node_id: 'MDQ6VXNlcjUwNzQ3MTA0',
+                        avatar_url:
+                            'https://avatars.githubusercontent.com/u/50747104?v=4',
+                        gravatar_id: '',
+                        url: 'https://api.github.com/users/Xionghaizi001',
+                        html_url: 'https://github.com/Xionghaizi001',
+                        followers_url:
+                            'https://api.github.com/users/Xionghaizi001/followers',
+                        following_url:
+                            'https://api.github.com/users/Xionghaizi001/following{/other_user}',
+                        gists_url:
+                            'https://api.github.com/users/Xionghaizi001/gists{/gist_id}',
+                        starred_url:
+                            'https://api.github.com/users/Xionghaizi001/starred{/owner}{/repo}',
+                        subscriptions_url:
+                            'https://api.github.com/users/Xionghaizi001/subscriptions',
+                        organizations_url:
+                            'https://api.github.com/users/Xionghaizi001/orgs',
+                        repos_url:
+                            'https://api.github.com/users/Xionghaizi001/repos',
+                        events_url:
+                            'https://api.github.com/users/Xionghaizi001/events{/privacy}',
+                        received_events_url:
+                            'https://api.github.com/users/Xionghaizi001/received_events',
+                        type: 'User',
+                        site_admin: false
+                    },
+                    labels: [],
+                    state: 'closed',
+                    locked: false,
+                    assignee: null,
+                    assignees: [],
+                    milestone: null,
+                    comments: 1,
+                    created_at: '2022-04-05T16:27:29Z',
+                    updated_at: '2022-04-05T16:29:44Z',
+                    closed_at: '2022-04-05T16:28:38Z',
+                    author_association: 'NONE',
+                    active_lock_reason: null,
+                    body: " - [√] I have read the [FAQ](https://github.com/Genymobile/scrcpy/blob/master/FAQ.md).\r\n - [√] I have searched in existing [issues](https://github.com/Genymobile/scrcpy/issues).\r\n\r\n**Environment**\r\n - OS: Windows 10 21H2 19044.1586\r\n - scrcpy version: 1.22\r\n - installation method: Win release\r\n - device model: Meizu 18 Pro\r\n - Android version: 11\r\n\r\n**Describe the bug**\r\n\r\n(I'm not sure if anyone has reported this problem)\r\nWhen use Alt+I to open frame counter, it will freeze and stop.\r\n",
+                    reactions: {
+                        'url': 'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/reactions',
+                        'total_count': 0,
+                        '+1': 0,
+                        '-1': 0,
+                        'laugh': 0,
+                        'hooray': 0,
+                        'confused': 0,
+                        'heart': 0,
+                        'rocket': 0,
+                        'eyes': 0
+                    },
+                    timeline_url:
+                        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/timeline',
+                    performed_via_github_app: null,
+                    score: 1
+                }
+            ]
         }
     };
 
@@ -89,7 +167,7 @@ const mockOpenIssue = {
     performed_via_github_app: null
 };
 
-// https://api.github.com/repos/genymobile/scrcpy/issues?state=open&page=1&per_page=20
+export const mockedGetOpenIssuesUrl = `https://api.github.com/repos/${mockedGetIssuesParameters.owner}/${mockedGetIssuesParameters.repository}/issues?state=open&page=1&per_page=20`;
 export const mockedGetOpenIssues: Endpoints['GET /repos/{owner}/{repo}/issues']['response'] =
     {
         status: 200,
@@ -102,66 +180,75 @@ export const mockedGetOpenIssues: Endpoints['GET /repos/{owner}/{repo}/issues'][
     };
 
 const mockClosedIssue = {
-    "url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169",
-    "repository_url": "https://api.github.com/repos/Genymobile/scrcpy",
-    "labels_url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169/labels{/name}",
-    "comments_url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169/comments",
-    "events_url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169/events",
-    "html_url": "https://github.com/Genymobile/scrcpy/issues/3169",
-    "id": 1193432339,
-    "node_id": "I_kwDOBqahac5HIlUT",
-    "number": 3169,
-    "title": "Problem with frame counter",
-    "user": {
-        "login": "Xionghaizi001",
-        "id": 50747104,
-        "node_id": "MDQ6VXNlcjUwNzQ3MTA0",
-        "avatar_url": "https://avatars.githubusercontent.com/u/50747104?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/Xionghaizi001",
-        "html_url": "https://github.com/Xionghaizi001",
-        "followers_url": "https://api.github.com/users/Xionghaizi001/followers",
-        "following_url": "https://api.github.com/users/Xionghaizi001/following{/other_user}",
-        "gists_url": "https://api.github.com/users/Xionghaizi001/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/Xionghaizi001/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/Xionghaizi001/subscriptions",
-        "organizations_url": "https://api.github.com/users/Xionghaizi001/orgs",
-        "repos_url": "https://api.github.com/users/Xionghaizi001/repos",
-        "events_url": "https://api.github.com/users/Xionghaizi001/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/Xionghaizi001/received_events",
-        "type": "User",
-        "site_admin": false
+    url: 'https://api.github.com/repos/Genymobile/scrcpy/issues/3169',
+    repository_url: 'https://api.github.com/repos/Genymobile/scrcpy',
+    labels_url:
+        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/labels{/name}',
+    comments_url:
+        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/comments',
+    events_url:
+        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/events',
+    html_url: 'https://github.com/Genymobile/scrcpy/issues/3169',
+    id: 1193432339,
+    node_id: 'I_kwDOBqahac5HIlUT',
+    number: 3169,
+    title: 'Problem with frame counter',
+    user: {
+        login: 'Xionghaizi001',
+        id: 50747104,
+        node_id: 'MDQ6VXNlcjUwNzQ3MTA0',
+        avatar_url: 'https://avatars.githubusercontent.com/u/50747104?v=4',
+        gravatar_id: '',
+        url: 'https://api.github.com/users/Xionghaizi001',
+        html_url: 'https://github.com/Xionghaizi001',
+        followers_url: 'https://api.github.com/users/Xionghaizi001/followers',
+        following_url:
+            'https://api.github.com/users/Xionghaizi001/following{/other_user}',
+        gists_url: 'https://api.github.com/users/Xionghaizi001/gists{/gist_id}',
+        starred_url:
+            'https://api.github.com/users/Xionghaizi001/starred{/owner}{/repo}',
+        subscriptions_url:
+            'https://api.github.com/users/Xionghaizi001/subscriptions',
+        organizations_url: 'https://api.github.com/users/Xionghaizi001/orgs',
+        repos_url: 'https://api.github.com/users/Xionghaizi001/repos',
+        events_url:
+            'https://api.github.com/users/Xionghaizi001/events{/privacy}',
+        received_events_url:
+            'https://api.github.com/users/Xionghaizi001/received_events',
+        type: 'User',
+        site_admin: false
     },
-    "labels": [],
-    "state": "closed",
-    "locked": false,
-    "assignee": null,
-    "assignees": [],
-    "milestone": null,
-    "comments": 1,
-    "created_at": "2022-04-05T16:27:29Z",
-    "updated_at": "2022-04-05T16:29:44Z",
-    "closed_at": "2022-04-05T16:28:38Z",
-    "author_association": "NONE",
-    "active_lock_reason": null,
-    "body": " - [√] I have read the [FAQ](https://github.com/Genymobile/scrcpy/blob/master/FAQ.md).\r\n - [√] I have searched in existing [issues](https://github.com/Genymobile/scrcpy/issues).\r\n\r\n**Environment**\r\n - OS: Windows 10 21H2 19044.1586\r\n - scrcpy version: 1.22\r\n - installation method: Win release\r\n - device model: Meizu 18 Pro\r\n - Android version: 11\r\n\r\n**Describe the bug**\r\n\r\n(I'm not sure if anyone has reported this problem)\r\nWhen use Alt+I to open frame counter, it will freeze and stop.\r\n",
-    "reactions": {
-        "url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169/reactions",
-        "total_count": 0,
-        "+1": 0,
-        "-1": 0,
-        "laugh": 0,
-        "hooray": 0,
-        "confused": 0,
-        "heart": 0,
-        "rocket": 0,
-        "eyes": 0
+    labels: [],
+    state: 'closed',
+    locked: false,
+    assignee: null,
+    assignees: [],
+    milestone: null,
+    comments: 1,
+    created_at: '2022-04-05T16:27:29Z',
+    updated_at: '2022-04-05T16:29:44Z',
+    closed_at: '2022-04-05T16:28:38Z',
+    author_association: 'NONE',
+    active_lock_reason: null,
+    body: " - [√] I have read the [FAQ](https://github.com/Genymobile/scrcpy/blob/master/FAQ.md).\r\n - [√] I have searched in existing [issues](https://github.com/Genymobile/scrcpy/issues).\r\n\r\n**Environment**\r\n - OS: Windows 10 21H2 19044.1586\r\n - scrcpy version: 1.22\r\n - installation method: Win release\r\n - device model: Meizu 18 Pro\r\n - Android version: 11\r\n\r\n**Describe the bug**\r\n\r\n(I'm not sure if anyone has reported this problem)\r\nWhen use Alt+I to open frame counter, it will freeze and stop.\r\n",
+    reactions: {
+        'url': 'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/reactions',
+        'total_count': 0,
+        '+1': 0,
+        '-1': 0,
+        'laugh': 0,
+        'hooray': 0,
+        'confused': 0,
+        'heart': 0,
+        'rocket': 0,
+        'eyes': 0
     },
-    "timeline_url": "https://api.github.com/repos/Genymobile/scrcpy/issues/3169/timeline",
-    "performed_via_github_app": null
-}
+    timeline_url:
+        'https://api.github.com/repos/Genymobile/scrcpy/issues/3169/timeline',
+    performed_via_github_app: null
+};
 
-// https://api.github.com/repos/genymobile/scrcpy/issues?state=closed&page=1&per_page=20
+export const mockedGetClosedIssuesUrl = `https://api.github.com/repos/${mockedGetIssuesParameters.owner}/${mockedGetIssuesParameters.repository}/issues?state=closed&page=1&per_page=20`;
 export const mockedGetClosedIssues: Endpoints['GET /repos/{owner}/{repo}/issues']['response'] =
     {
         status: 200,

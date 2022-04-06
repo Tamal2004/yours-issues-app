@@ -5,14 +5,15 @@ export const mockedRepositoryNotFoundParameters = {
     repository: 'aosrtnestoaetnaoirsetn'
 };
 
-// GET https://api.github.com/repos/tamal2004/aosrtnestoaetnaoirsetn
+export const mockedRepositoryNotFoundUrl = `https://api.github.com/repos/${mockedRepositoryNotFoundParameters.owner}/${mockedRepositoryNotFoundParameters.repository}`;
 
 export const mockedRepositoryWithNoIssuesParameters = {
     owner: 'tamal2004',
     repository: 'radio-widget'
 };
 
-// GET https://api.github.com/repos/tamal2004/radio-widget
+export const mockedRepositoryWithNoIssuesUrl = `https://api.github.com/repos/${mockedRepositoryWithNoIssuesParameters.owner}/${mockedRepositoryWithNoIssuesParameters.repository}`;
+// @ts-ignore
 export const mockedRepositoryWithNoIssues: Endpoints['GET /repos/{owner}/{repo}']['response'] =
     {
         status: 200,
@@ -170,7 +171,8 @@ export const mockedRepositoryParameters = {
     repository: 'scrcpy'
 };
 
-// GET https://api.github.com/repos/genymobile/scrcpy
+export const mockedRepositoryUrl = `https://api.github.com/repos/${mockedRepositoryParameters.owner}/${mockedRepositoryParameters.repository}`;
+// @ts-ignore
 export const mockedRepository: Endpoints['GET /repos/{owner}/{repo}']['response'] =
     {
         status: 200,
