@@ -127,7 +127,7 @@ const Input: React.FC<FieldProps> = ({
                 placeholder={placeholder}
                 $hasError={!!error && touched}
             />
-            <Checkmark $isValid={!error && touched} src='/checkmark.png' />
+            <Checkmark alt='Checkmark' $isValid={!error && touched} src='/checkmark.png' />
             <Error $hasError={!!error && touched} role='error'>{errorMessage}</Error>
         </StyledField>
     );

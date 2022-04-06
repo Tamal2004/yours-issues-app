@@ -8,6 +8,7 @@ interface IssuesState extends RepositoryAttributes {
     error: string;
     openIssuesCount: number;
     closedIssuesCount: number;
+    state: 'open' | 'closed';
     issues: Issue[];
 }
 
@@ -17,6 +18,7 @@ const initialState: IssuesState = {
     repository: '',
     openIssuesCount: 0,
     closedIssuesCount: 0,
+    state: 'open',
     issues: []
 };
 
@@ -26,6 +28,8 @@ const issuesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(HYDRATE, (state, action) => {
+            if (state.owner) return state;
+
             //@ts-ignore
             state = { ...state, ...(action.payload.issues as IssuesState) };
             return state;
