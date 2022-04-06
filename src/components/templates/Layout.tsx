@@ -10,7 +10,6 @@ interface LayoutProps {
 
 const Container = styled.div`
     grid-column: content-start / content-end;
-    padding: 0 17rem;
 `;
 
 const Layout: React.FC<LayoutProps> = ({ className, children }) => {
