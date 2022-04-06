@@ -12,7 +12,7 @@ const Panel = styled.div`
     grid-template-areas:
         'icon   title       .   comment'
         '.      subtitle    .   comment';
-    grid-template-columns: max-content 60% 1fr max-content;
+    grid-template-columns: max-content 65% 1fr max-content;
     grid-column-gap: 0.875rem;
     grid-row-gap: 0.75rem;
 

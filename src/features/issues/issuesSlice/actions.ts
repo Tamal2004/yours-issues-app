@@ -14,6 +14,7 @@ interface FetchIssuesParameters extends Partial<RepositoryAttributes> {
 interface FetchIssuesPayload {
     issues: Issue[];
     state: 'open' | 'closed';
+    currentPage: number;
 }
 
 export const fetchIssues = createAsyncThunk<
@@ -21,14 +22,14 @@ export const fetchIssues = createAsyncThunk<
     FetchIssuesParameters
 >(
     'issues/fetch',
-    async ({ owner, repository, page = 1, state = 'open' }, thunkApi) => {
+    async ({ owner, repository, state = 'open', page = 1 }, thunkApi) => {
         const store = thunkApi.getState() as RootState;
 
         const issuesResponse = await getIssues({
             owner: owner || (store.issues.owner as string),
             repository: repository || (store.issues.repository as string),
-            page,
-            state
+            state,
+            page
         });
 
         if (issuesResponse.status !== 200) {
@@ -66,10 +67,15 @@ export const fetchIssues = createAsyncThunk<
 
         return {
             issues,
-            state
+            state,
+            currentPage: page
         };
     }
 );
+
+interface FetchRepositoryParameters extends RepositoryAttributes {
+    redirect?: () => void;
+}
 
 interface FetchRepositoryPayload extends RepositoryAttributes {
     openIssuesCount: number;
@@ -83,48 +89,55 @@ interface FetchRepositoryError {
 
 export const fetchRepository = createAsyncThunk<
     FetchRepositoryPayload,
-    RepositoryAttributes,
+    FetchRepositoryParameters,
     {
         rejectValue: FetchRepositoryError;
     }
->('repository/fetch', async ({ owner, repository }, thunkApi) => {
-    // Used to get repository metadata & the number of open issues
-    try {
-        const repositoryResponse = await getRepository({ owner, repository });
-
-        const {
-            data: { open_issues_count }
-        } = repositoryResponse;
-
-        if (!open_issues_count)
-            return thunkApi.rejectWithValue({
-                errorMessage: 'Repository has no issues'
+>(
+    'repository/fetch',
+    async ({ owner, repository, redirect = () => void 0 }, thunkApi) => {
+        // Used to get repository metadata & the number of open issues
+        try {
+            const repositoryResponse = await getRepository({
+                owner,
+                repository
             });
 
-        // Success
-        const closedIssuesResponse = await getClosedIssuesCount({
-            owner,
-            repository
-        });
+            const {
+                data: { open_issues_count }
+            } = repositoryResponse;
 
-        let closedIssuesCount = 0;
+            if (!open_issues_count)
+                return thunkApi.rejectWithValue({
+                    errorMessage: 'Repository has no issues'
+                });
 
-        if (closedIssuesResponse.status === 200) {
-            closedIssuesCount = closedIssuesResponse.data.total_count;
+            // Success
+            const closedIssuesResponse = await getClosedIssuesCount({
+                owner,
+                repository
+            });
+
+            let closedIssuesCount = 0;
+
+            if (closedIssuesResponse.status === 200) {
+                closedIssuesCount = closedIssuesResponse.data.total_count;
+            }
+
+            await thunkApi.dispatch(fetchIssues({ owner, repository }));
+
+            redirect();
+            return {
+                owner,
+                repository,
+                openIssuesCount: open_issues_count,
+                closedIssuesCount,
+                state: 'open'
+            };
+        } catch (error) {
+            return thunkApi.rejectWithValue({
+                errorMessage: 'Repository not found'
+            });
         }
-
-        await thunkApi.dispatch(fetchIssues({ owner, repository }));
-
-        return {
-            owner,
-            repository,
-            openIssuesCount: open_issues_count,
-            closedIssuesCount,
-            state: 'open'
-        };
-    } catch (error) {
-        return thunkApi.rejectWithValue({
-            errorMessage: 'Repository not found'
-        });
     }
-});
+);

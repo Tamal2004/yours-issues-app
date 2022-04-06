@@ -20,7 +20,7 @@ export const getIssues = async ({
     state: 'open' | 'closed';
 }) =>
     (await octokit.request(
-        'GET /repos/{owner}/{repository}/issues?state={statet}&page={page}&per_page={perPage}',
+        'GET /repos/{owner}/{repository}/issues?state={state}&page={page}&per_page={perPage}',
         {
             owner,
             repository,

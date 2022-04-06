@@ -9,6 +9,7 @@ interface IssuesState extends RepositoryAttributes {
     openIssuesCount: number;
     closedIssuesCount: number;
     state: 'open' | 'closed';
+    currentPage: number;
     issues: Issue[];
 }
 
@@ -19,6 +20,7 @@ const initialState: IssuesState = {
     openIssuesCount: 0,
     closedIssuesCount: 0,
     state: 'open',
+    currentPage: 1,
     issues: []
 };
 
@@ -51,6 +53,7 @@ const issuesSlice = createSlice({
         builder.addCase(fetchIssues.fulfilled, (state, { payload }) => {
             state.issues = payload.issues;
             state.state = payload.state;
+            state.currentPage = payload.currentPage;
             return state;
         });
     }
