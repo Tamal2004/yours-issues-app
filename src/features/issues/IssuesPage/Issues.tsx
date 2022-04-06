@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { styled } from 'theme';
-import { useAppSelector } from 'utils/hooks/store';
+import { useAppDispatch, useAppSelector } from 'utils/hooks/store';
 import Issue from 'features/issues/IssuesPage/Issue';
+import { fetchIssues } from 'features/issues/issuesSlice/actions';
 
 const Container = styled.div`
     display: flex;
@@ -56,15 +57,23 @@ const TabText = styled.span`
 const Issues: React.FC = () => {
     const { state, openIssuesCount, closedIssuesCount, issues } =
         useAppSelector((state) => state.issues);
+    const dispatch = useAppDispatch();
+
+    const handleOpenIssues = () => {
+        dispatch(fetchIssues({ state: 'open' }));
+    };
+    const handleClosedIssues = () => {
+        dispatch(fetchIssues({ state: 'closed' }));
+    };
 
     return (
         <Container>
             <TabHeader>
-                <Tab $active={state === 'open'}>
+                <Tab $active={state === 'open'} onClick={handleOpenIssues}>
                     <TabIcon alt='Open Issues' src='/open-issue.png' />
                     <TabText>{openIssuesCount} Open</TabText>
                 </Tab>
-                <Tab $active={state === 'closed'}>
+                <Tab $active={state === 'closed'} onClick={handleClosedIssues}>
                     <TabIcon alt='Closed Issues' src='/closed-issue.png' />
                     <TabText>{closedIssuesCount} Closed</TabText>
                 </Tab>

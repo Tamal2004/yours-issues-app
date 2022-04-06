@@ -50,6 +50,7 @@ const issuesSlice = createSlice({
         });
         builder.addCase(fetchIssues.fulfilled, (state, { payload }) => {
             state.issues = payload.issues;
+            state.state = payload.state;
             return state;
         });
     }
