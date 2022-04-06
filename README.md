@@ -37,14 +37,18 @@ have been split up according to system setup, search page, issues page, and inte
 
 In the project directory, you can run:
 
-### `npm start` or `yarn start`
+### `npm run dev` or `yarn dev`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `npm run build` or `yarn build`
 
 Builds the app for production to the `build` folder.
+
+### `npm run start` or `yarn start`
+
+Starts up a production version of the server after a `npm run build` has been completed
 
 ### `npm test` or `yarn test`
 
