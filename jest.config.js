@@ -19,7 +19,9 @@ const customJestConfig = {
         '^services/(.*)$': '<rootDir>/src/services/$1',
         '^types/(.*)$': '<rootDir>/src/types/$1',
         '^theme/(.*)$': '<rootDir>/src/theme/$1',
-        '^theme$': '<rootDir>/src/theme/theme.ts'
+        '^theme$': '<rootDir>/src/theme/theme.ts',
+        'next/dist/server/image-config':
+            '<rootDir>/node_modules/next/dist/shared/lib/image-config'
     }
 };
 
