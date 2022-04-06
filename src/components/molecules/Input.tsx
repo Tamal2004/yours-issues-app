@@ -114,7 +114,7 @@ const Input: React.FC<FieldProps> = ({
     }, [error, setErrorMessage]);
 
     return (
-        <StyledField className={className}>
+        <StyledField className={className} role='input'>
             <Label htmlFor={id}>
                 {label}
                 {required && <Required> *</Required>}
@@ -128,7 +128,7 @@ const Input: React.FC<FieldProps> = ({
                 $hasError={!!error && touched}
             />
             <Checkmark $isValid={!error && touched} src='/checkmark.png' />
-            <Error $hasError={!!error && touched}>{errorMessage}</Error>
+            <Error $hasError={!!error && touched} role='error'>{errorMessage}</Error>
         </StyledField>
     );
 };
