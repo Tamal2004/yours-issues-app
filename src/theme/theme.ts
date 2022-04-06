@@ -19,11 +19,14 @@ export const theme = {
             dark: 'rgba(200, 10, 16, 0.28)'
         },
         background: {
-            light: 'rgba(255, 255, 255, 0.12)'
+            light: 'rgba(255, 255, 255, 0.12)',
+            main: 'rgba(255, 255, 255, 0.1)',
+            dark: '#040C28'
         },
         grey: {
+            text: 'rgba(230, 231, 233, 0.5)',
             light: 'rgba(230, 231, 233, 0.8)',
-            main: '#E6E7E9'
+            main: '#E6E7E9',
         }
     },
     typography: {
