@@ -180,7 +180,7 @@ const IssuesPage: React.FC = () => {
                 breakLinkClassName='page-link'
                 containerClassName='pagination'
                 activeClassName='active'
-                renderOnZeroPageCount={() => null}
+                renderOnZeroPageCount={null as unknown as () => null}
             />
         </Background>
     );
