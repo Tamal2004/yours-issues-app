@@ -19,4 +19,5 @@ const SpinningLoader = styled.div`
         }
     }
 `;
+
 export default SpinningLoader;
