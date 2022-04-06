@@ -1,6 +1,6 @@
 import React from 'react';
-import { css, styled } from 'theme';
-import SpinningLoader from 'atoms/SpinningLoader';
+import { css, styled } from '../../theme/theme';
+import SpinningLoader from './SpinningLoader';
 
 type ButtonProps = JSX.IntrinsicElements['button'] & {
     loading?: boolean;
@@ -65,8 +65,9 @@ const Button: React.FC<ButtonProps> = ({
             className={className}
             $disabled={disabled}
             $loading={loading}
-            disabled={disabled}
+            disabled={disabled || loading}
             onClick={onClick}
+            role='button'
             {...restProps}
         >
             {children}
