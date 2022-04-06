@@ -10,6 +10,7 @@ export interface Issue {
     commentsCount: number;
     repositoryUrl: string;
     issueUrl: string;
-    createdAt: string;
     userLoginId?: string;
+    createdAt: string;
+    closedAt: string | null;
 }

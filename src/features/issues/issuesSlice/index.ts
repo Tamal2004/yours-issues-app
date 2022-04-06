@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 
-import {fetchIssues, fetchRepository} from './actions';
-import {Issue, RepositoryAttributes} from 'types/issues';
+import { fetchIssues, fetchRepository } from './actions';
+import { Issue, RepositoryAttributes } from 'types/issues';
 
 interface IssuesState extends RepositoryAttributes {
     error: string;
     openIssuesCount: number;
     closedIssuesCount: number;
-    issues: Issue[]
+    issues: Issue[];
 }
 
 const initialState: IssuesState = {
@@ -45,7 +45,7 @@ const issuesSlice = createSlice({
             return state;
         });
         builder.addCase(fetchIssues.fulfilled, (state, { payload }) => {
-            state.issues = payload;
+            state.issues = payload.issues;
             return state;
         });
     }
