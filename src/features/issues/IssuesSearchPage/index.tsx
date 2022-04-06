@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 
 import { styled } from 'theme';
@@ -17,6 +17,7 @@ import {
     issuesSearchFormSchema
 } from './issuesSearchForm';
 import { selectError } from 'features/issues/issuesSlice/selectors';
+import { useRouter } from 'next/router';
 
 const Background = styled(Layout)`
     background: url('/background-splash.png');
@@ -30,9 +31,9 @@ const Container = styled.div`
     grid-template-areas:
         'form'
         'error';
-     grid-row-gap: 2rem;
+    grid-row-gap: 2rem;
 
-    padding-top: 26rem;
+    padding: 26rem 17rem 0;
 `;
 
 const StyledForm = styled(Form)`
@@ -84,7 +85,9 @@ const Error = styled.span<{ $hasError: boolean }>`
 
     opacity: ${({ $hasError }) => ($hasError ? '1' : '0')};
 `;
+
 const IssuesSearchPage: React.FC = () => {
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const error = useAppSelector(selectError);
 
@@ -92,13 +95,13 @@ const IssuesSearchPage: React.FC = () => {
 
     // Sticky error message to avoid content flicker with transitions
     useEffect(() => {
-        if (error) setErrorMessage(error)
+        if (error) setErrorMessage(error);
     }, [error, setErrorMessage]);
 
-    const onSubmit = async (
-        values: RepositoryAttributes
-    ) => {
+    const onSubmit = async (values: RepositoryAttributes) => {
         await dispatch(fetchRepository(values));
+        const { owner, repository } = values;
+        await router.push(`/${owner}/${repository}`, '', { shallow: true });
     };
 
     return (
