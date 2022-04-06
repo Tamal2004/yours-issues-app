@@ -157,7 +157,7 @@ const IssuesPage: React.FC = () => {
     return (
         <Background>
             <HeadingWrapper>
-                <Heading>Issues</Heading>
+                <Heading role='heading'>Issues</Heading>
                 <IssuesCount>{openIssuesCount}</IssuesCount>
             </HeadingWrapper>
             <Issues />

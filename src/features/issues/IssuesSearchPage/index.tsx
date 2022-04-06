@@ -110,7 +110,7 @@ const IssuesSearchPage: React.FC = () => {
     return (
         <Background>
             <Container>
-                <Error $hasError={!!error}>{errorMessage}</Error>
+                <Error role='errorToast' $hasError={!!error}>{errorMessage}</Error>
                 <Formik
                     initialValues={issuesSearchFormInitialValues}
                     validationSchema={issuesSearchFormSchema}
