@@ -12,6 +12,7 @@
   "dependencies": {
     "@octokit/core": "^3.6.0",
     "@reduxjs/toolkit": "^1.8.1",
+    "@svgr/webpack": "^6.2.1",
     "formik": "^2.2.9",
     "next": "12.1.4",
     "next-redux-wrapper": "^7.0.5",
