@@ -13,6 +13,7 @@ interface FetchIssuesParameters extends Partial<RepositoryAttributes> {
 
 interface FetchIssuesPayload {
     issues: Issue[];
+    state: 'open' | 'closed';
 }
 
 export const fetchIssues = createAsyncThunk<
@@ -64,7 +65,8 @@ export const fetchIssues = createAsyncThunk<
         );
 
         return {
-            issues
+            issues,
+            state
         };
     }
 );
@@ -72,7 +74,7 @@ export const fetchIssues = createAsyncThunk<
 interface FetchRepositoryPayload extends RepositoryAttributes {
     openIssuesCount: number;
     closedIssuesCount: number;
-    state: 'open' | 'closed'
+    state: 'open' | 'closed';
 }
 
 interface FetchRepositoryError {
