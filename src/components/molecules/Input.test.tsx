@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { render, fireEvent, screen, waitFor, act } from 'utils/testUtils';
+import { render, fireEvent, screen, waitFor } from 'utils/testUtils';
 import Input from './Input';
 
 const validationMessage = 'This field is required';
@@ -51,6 +51,7 @@ describe('<Input />', () => {
                 value=""
               />
               <img
+                alt="Checkmark"
                 class="sc-eCYdqJ jMzffH"
                 src="/checkmark.png"
               />
