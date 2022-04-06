@@ -48,6 +48,11 @@ export const theme = {
             line-height: 1.29;
             font-weight: 600;
         `,
+        paginate: baseCss`
+            font-size: 2rem;
+            line-height: 1.2;
+            font-weight: 400;
+        `,
     }
 };
 
