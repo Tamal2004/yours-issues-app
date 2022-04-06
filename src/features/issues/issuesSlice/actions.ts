@@ -50,6 +50,7 @@ export const fetchIssues = createAsyncThunk<
                 repository_url,
                 html_url,
                 created_at,
+                closed_at,
                 user
             }) => ({
                 id,
@@ -58,8 +59,9 @@ export const fetchIssues = createAsyncThunk<
                 commentsCount: comments,
                 repositoryUrl: repository_url,
                 issueUrl: html_url,
+                userLoginId: user?.login,
                 createdAt: created_at,
-                userLoginId: user?.login
+                closedAt: closed_at
             })
         );
 
