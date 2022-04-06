@@ -2,8 +2,9 @@ import React from 'react';
 
 import { styled } from 'theme';
 import { useAppDispatch, useAppSelector } from 'utils/hooks/store';
-import Issue from 'features/issues/IssuesPage/Issue';
-import { fetchIssues } from 'features/issues/issuesSlice/actions';
+
+import { fetchIssues } from '../issuesSlice/actions';
+import Issue from './Issue';
 
 const Container = styled.div`
     display: flex;
