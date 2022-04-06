@@ -8,7 +8,6 @@ export interface Issue {
     number: number;
     title: string;
     commentsCount: number;
-    repositoryUrl: string;
     issueUrl: string;
     userLoginId?: string;
     createdAt: string;
